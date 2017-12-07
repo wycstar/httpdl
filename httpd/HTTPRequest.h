@@ -26,6 +26,14 @@ typedef struct _tHTTP_REQUEST{
     string version;
 }HTTP_REQUEST;
 
+typedef struct _tHTTP_UA {
+    string os;
+    string render;
+    string browser_name;
+    string browser_core;
+    string arch;
+}HTTP_UA;
+
 class HTTPRequest
 {
 private:
@@ -35,4 +43,8 @@ public:
     HTTPRequest();
     ~HTTPRequest();
     HTTP_REQUEST parse(const string& request);
+    HTTP_METHOD get_method();
+    string get_version();
+    string get_uri();
+    HTTP_UA get_ua();
 };
