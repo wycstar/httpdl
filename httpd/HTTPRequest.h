@@ -38,6 +38,9 @@ class HTTPRequest
 {
 private:
     vector<string> _split(const string& source, const string& sign);
+    HTTP_METHOD request_method;
+    string request_uri;
+    string request_version;
 
 public:
     HTTPRequest();
