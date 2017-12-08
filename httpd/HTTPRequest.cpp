@@ -45,6 +45,11 @@ string HTTPRequest::get_uri()
     return string();
 }
 
+HTTP_UA HTTPRequest::get_ua()
+{
+    return HTTP_UA();
+}
+
 vector<string> HTTPRequest::_split(const string & source, const string & sign)
 {
     vector<string> result;
