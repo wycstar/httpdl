@@ -24,3 +24,32 @@ WSocket::~WSocket()
 {
 
 }
+
+void WSocket::bind(string host = "0.0.0.0", short port = 54213)
+{
+    _addr.sin_addr.s_addr = inet_addr(host.c_str());
+    _addr.sin_port = htons(port);
+    int ret = ::bind(_fd, reinterpret_cast<sockaddr *>(&_addr), sizeof(sockaddr));
+    if (ret != 0) {
+        THROW_SYSTEM_ERROR();
+    }
+}
+
+void WSocket::listen()
+{
+    int ret = ::listen(_fd, 10000);
+    if (ret != 0) {
+        THROW_SYSTEM_ERROR();
+    }
+}
+
+void WSocket::to_none_blocking()
+{
+    int p = 1;
+    int ret = ioctl(_fd, FIONBIO, &p);
+}
+
+void WSocket::read(uint8_t *buf, uint32_t len)
+{
+    int ret = recv(_fd, buf, len, 0);
+}
