@@ -61,7 +61,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\Lang\LinuxInclude\include;$(IncludePath)</IncludePath>
+    <IncludePath>D:\language\LinuxInclude\x86_64-linux-gnu;D:\language\LinuxInclude\include;D:\Lang\LinuxInclude\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <IncludePath>D:\Lang\LinuxInclude\x86_64-linux-gnu;D:\Lang\LinuxInclude\include;$(IncludePath)</IncludePath>
@@ -69,11 +69,13 @@
   <ItemGroup>
     <ClCompile Include="HTTPRequest.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="WPoll.cpp" />
     <ClCompile Include="WSocket.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HTTPRequest.h" />
     <ClInclude Include="log.h" />
+    <ClInclude Include="WPoll.h" />
     <ClInclude Include="WSocket.h" />
   </ItemGroup>
   <ItemDefinitionGroup />
