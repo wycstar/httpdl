@@ -1,5 +1,6 @@
 #include "WPoll.h"
 #include "log.h"
+#include "Buffer.h"
 
 WPoll::WPoll()
 {
@@ -24,5 +25,9 @@ void WPoll::add(int fd)
 
 void WPoll::process()
 {
+    auto r = make_buffer<struct epoll_event>(MAX_EVENTS);
+    while(true) {
+        int count = epoll_wait(_fd, r.get(), MAX_EVENTS, -1);
 
+    }
 }

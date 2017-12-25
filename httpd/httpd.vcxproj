@@ -67,12 +67,14 @@
     <IncludePath>D:\Lang\LinuxInclude\x86_64-linux-gnu;D:\Lang\LinuxInclude\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemGroup>
+    <ClCompile Include="Buffer.cpp" />
     <ClCompile Include="HTTPRequest.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="WPoll.cpp" />
     <ClCompile Include="WSocket.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Buffer.h" />
     <ClInclude Include="HTTPRequest.h" />
     <ClInclude Include="log.h" />
     <ClInclude Include="WPoll.h" />
