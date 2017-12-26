@@ -14,6 +14,7 @@ WPoll::~WPoll()
 
 void WPoll::add(int fd)
 {
+    _listen = fd;
     struct epoll_event _ev;
     _ev.events = EPOLLIN | EPOLLOUT;
     _ev.data.fd = fd;
@@ -28,6 +29,13 @@ void WPoll::process()
     auto r = make_buffer<struct epoll_event>(MAX_EVENTS);
     while(true) {
         int count = epoll_wait(_fd, r.get(), MAX_EVENTS, -1);
-
+        if (count == -1 && errno == EINTR) {
+            THROW_SYSTEM_ERROR();
+        }
+        auto buffer = r.get();
+        for (int i = 0; i < count; i++) {
+            int handler = buffer[i].data.fd;
+            if(handler == )
+        }
     }
 }
