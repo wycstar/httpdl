@@ -35,7 +35,9 @@ void WPoll::process()
         auto buffer = r.get();
         for (int i = 0; i < count; i++) {
             int handler = buffer[i].data.fd;
-            if(handler == )
+            if (handler == _listen) {
+
+            }
         }
     }
 }
