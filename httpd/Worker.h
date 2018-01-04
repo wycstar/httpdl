@@ -30,5 +30,9 @@ public:
     void restart() {
         _stop.store(false);
     };
-
+    unsigned int idle() {
+        return _num;
+    };
+    template<class F, class...Args> //前面是类型 后面是参数
+    auto commit()
 };
