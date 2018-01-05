@@ -24,6 +24,7 @@ public:
     void bind(string host, short port);
     void listen();
     void to_none_blocking();
+    static void to_none_blocking(int fd);
     void read(uint8_t *buf, uint32_t len);
 };
 

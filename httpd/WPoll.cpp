@@ -1,10 +1,21 @@
 #include "WPoll.h"
 #include "log.h"
 #include "Buffer.h"
+#include "Worker.h"
+#include "WSocket.h"
+
+extern Worker workers;
+
+WPoll::WPoll(int listen_fd)
+{
+    _listen = listen_fd;
+    add(_listen);
+    _fd = epoll_create(10000);
+}
 
 WPoll::WPoll()
 {
-    _fd = epoll_create(10000);
+
 }
 
 WPoll::~WPoll()
@@ -14,9 +25,8 @@ WPoll::~WPoll()
 
 void WPoll::add(int fd)
 {
-    _listen = fd;
     struct epoll_event _ev;
-    _ev.events = EPOLLIN | EPOLLOUT;
+    _ev.events = EPOLLIN | EPOLLET;
     _ev.data.fd = fd;
     int ret = epoll_ctl(_fd, EPOLL_CTL_ADD, fd, &_ev);
     if (ret != 0) {
@@ -40,4 +50,12 @@ void WPoll::process()
             }
         }
     }
+}
+
+void WPoll::establish(int epoll_fd, int socket_fd)
+{
+    struct sockaddr_in client_addr;
+    socklen_t len = sizeof(client_addr);
+    int client_fd = ::accept(socket_fd, (struct sockaddr *)&client_addr, &len);
+    epoll_add_fd(epoll_fd, client_fd, 1);
 }

@@ -34,5 +34,5 @@ public:
         return _num;
     };
     template<class F, class...Args> //前面是类型 后面是参数
-    auto commit(F&& f, Args&&... args)->std::future(decltype(f(args...))); //返回类型后置
+    auto commit(F&& f, Args&&... args)->std::future(decltype(f(args...))); //返回类型后置,一般用在模板
 };

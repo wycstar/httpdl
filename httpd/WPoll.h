@@ -11,8 +11,10 @@ private:
 
 public:
     WPoll();
+    WPoll(int listen_fd);
     ~WPoll();
     void add(int fd);
     void process();
+    static void establish(int epoll_fd, int socket_fd);
 };
 

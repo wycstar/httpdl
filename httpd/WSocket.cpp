@@ -1,5 +1,7 @@
 #include "WSocket.h"
 #include "log.h"
+#include <sys/epoll.h>
+#include <sys/fcntl.h>
 
 WSocket::WSocket()
 {
@@ -47,6 +49,12 @@ void WSocket::to_none_blocking()
 {
     int p = 1;
     int ret = ioctl(_fd, FIONBIO, &p);
+}
+
+void WSocket::to_none_blocking(int fd)
+{
+    int flag = fcntl(fd, F_GETFL, 0);
+    fcntl(fd, F_SETFL, flag | O_NONBLOCK);
 }
 
 void WSocket::read(uint8_t *buf, uint32_t len)
