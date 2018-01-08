@@ -14,5 +14,5 @@ public:
     Server();
     ~Server();
     void dispatch();
-    static void listen_handler(int epoll_fd, int listen_fd);
+    static void listen_handler(int epoll_fd, int listen_fd, WPoll& poll);
 };

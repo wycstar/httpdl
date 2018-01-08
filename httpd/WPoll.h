@@ -16,6 +16,5 @@ public:
     int wait();
     struct epoll_event* events();
     int native();
-    static void establish(int epoll_fd, int socket_fd);
 };
 

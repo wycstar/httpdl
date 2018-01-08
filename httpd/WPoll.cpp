@@ -43,11 +43,3 @@ int WPoll::native()
 {
     return _fd;
 }
-
-void WPoll::establish(int epoll_fd, int socket_fd)
-{
-    struct sockaddr_in client_addr;
-    socklen_t len = sizeof(client_addr);
-    int client_fd = ::accept(socket_fd, (struct sockaddr *)&client_addr, &len);
-    poll.add(client_fd);
-}

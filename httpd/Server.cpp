@@ -26,8 +26,8 @@ void Server::dispatch()
         auto buffer = _poll.events();
         for (int i = 0; i < count; i++) {
             int handler = buffer[i].data.fd;
-            if (handler == _listen.native()) {
-                workers->commit(listen_handler, _poll.native(), handler);
+            if (handler == _listen->native()) {
+                workers->commit(listen_handler, _poll.native(), handler, _poll);
             }
             else {
                 char buf[1024];
@@ -45,7 +45,10 @@ void Server::dispatch()
     }
 }
 
-void Server::listen_handler(int epoll_fd, int listen_fd)
+void Server::listen_handler(int epoll_fd, int listen_fd, WPoll& poll)
 {
+    struct sockaddr_in client_addr;
+    socklen_t len = sizeof(client_addr);
+    int client_fd = ::accept(listen_fd, (struct sockaddr *)&client_addr, &len);
+    poll.add(client_fd);
 }
-
