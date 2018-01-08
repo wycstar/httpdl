@@ -21,7 +21,7 @@ public:
     WSocket();
     WSocket(SOCKET_TYPE t);
     ~WSocket();
-    void bind(string host, short port);
+    void bind(string host = "0.0.0.0", short port = 54213);
     int native();
     void listen();
     void to_none_blocking();

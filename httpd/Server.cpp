@@ -7,7 +7,8 @@ Server::Server() :
     workers(std::shared_ptr<Worker>(new Worker(4))),
     _listen(std::shared_ptr<WSocket>(new WSocket(SOCKET_TYPE::INET)))
 {
-    _listen.bind()
+    _listen->bind();
+    _listen->listen();
 }
 
 Server::~Server()
