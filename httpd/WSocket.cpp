@@ -37,6 +37,11 @@ void WSocket::bind(string host = "0.0.0.0", short port = 54213)
     }
 }
 
+int WSocket::native()
+{
+    return _fd;
+}
+
 void WSocket::listen()
 {
     int ret = ::listen(_fd, 10000);

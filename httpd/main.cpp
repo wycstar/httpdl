@@ -1,11 +1,9 @@
 #include <cstdio>
-#include "HTTPRequest.h"
+#include "Server.h"
 
 int main()
 {
-    string t;
-    HTTPRequest a;
-    a.parse(t);
-    printf("hello from httpd!\n");
+    Server server;
+    server.dispatch();
     return 0;
 }

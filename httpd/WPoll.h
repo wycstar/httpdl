@@ -6,15 +6,16 @@ class WPoll
 {
 private:
     int _fd;
-    int _listen;
+    std::shared_ptr<struct epoll_event> _events;
     static const int MAX_EVENTS = 32768;
 
 public:
     WPoll();
-    WPoll(int listen_fd);
     ~WPoll();
     void add(int fd);
-    void process();
+    int wait();
+    struct epoll_event* events();
+    int native();
     static void establish(int epoll_fd, int socket_fd);
 };
 

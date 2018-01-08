@@ -70,6 +70,7 @@
     <ClCompile Include="Buffer.cpp" />
     <ClCompile Include="HTTPRequest.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Server.cpp" />
     <ClCompile Include="Worker.cpp" />
     <ClCompile Include="WPoll.cpp" />
     <ClCompile Include="WSocket.cpp" />
@@ -78,6 +79,7 @@
     <ClInclude Include="Buffer.h" />
     <ClInclude Include="HTTPRequest.h" />
     <ClInclude Include="log.h" />
+    <ClInclude Include="Server.h" />
     <ClInclude Include="Worker.h" />
     <ClInclude Include="WPoll.h" />
     <ClInclude Include="WSocket.h" />

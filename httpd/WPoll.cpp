@@ -1,21 +1,15 @@
 #include "WPoll.h"
+#include "WSocket.h"
+#include "Worker.h"
 #include "log.h"
 #include "Buffer.h"
-#include "Worker.h"
-#include "WSocket.h"
 
 extern Worker workers;
+WPoll poll;
 
-WPoll::WPoll(int listen_fd)
+WPoll::WPoll():_events(make_buffer<struct epoll_event>(MAX_EVENTS))
 {
-    _listen = listen_fd;
-    add(_listen);
     _fd = epoll_create(10000);
-}
-
-WPoll::WPoll()
-{
-
 }
 
 WPoll::~WPoll()
@@ -28,28 +22,26 @@ void WPoll::add(int fd)
     struct epoll_event _ev;
     _ev.events = EPOLLIN | EPOLLET;
     _ev.data.fd = fd;
+    WSocket::to_none_blocking(fd);
     int ret = epoll_ctl(_fd, EPOLL_CTL_ADD, fd, &_ev);
     if (ret != 0) {
         THROW_SYSTEM_ERROR();
     }
 }
 
-void WPoll::process()
+int WPoll::wait()
 {
-    auto r = make_buffer<struct epoll_event>(MAX_EVENTS);
-    while(true) {
-        int count = epoll_wait(_fd, r.get(), MAX_EVENTS, -1);
-        if (count == -1 && errno == EINTR) {
-            THROW_SYSTEM_ERROR();
-        }
-        auto buffer = r.get();
-        for (int i = 0; i < count; i++) {
-            int handler = buffer[i].data.fd;
-            if (handler == _listen) {
+    return epoll_wait(_fd, _events.get(), MAX_EVENTS, -1);
+}
 
-            }
-        }
-    }
+struct epoll_event* WPoll::events()
+{
+    return _events.get();
+}
+
+int WPoll::native()
+{
+    return _fd;
 }
 
 void WPoll::establish(int epoll_fd, int socket_fd)
@@ -57,5 +49,5 @@ void WPoll::establish(int epoll_fd, int socket_fd)
     struct sockaddr_in client_addr;
     socklen_t len = sizeof(client_addr);
     int client_fd = ::accept(socket_fd, (struct sockaddr *)&client_addr, &len);
-    epoll_add_fd(epoll_fd, client_fd, 1);
+    poll.add(client_fd);
 }
