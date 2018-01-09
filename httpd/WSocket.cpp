@@ -27,7 +27,7 @@ WSocket::~WSocket()
 
 }
 
-void WSocket::bind(string host = "0.0.0.0", short port = 54213)
+void WSocket::bind(string host, unsigned short port)
 {
     _addr.sin_addr.s_addr = inet_addr(host.c_str());
     _addr.sin_port = htons(port);
@@ -52,8 +52,8 @@ void WSocket::listen()
 
 void WSocket::to_none_blocking()
 {
-    int p = 1;
-    int ret = ioctl(_fd, FIONBIO, &p);
+    int flag = fcntl(_fd, F_GETFL, 0);
+    fcntl(_fd, F_SETFL, flag | O_NONBLOCK);
 }
 
 void WSocket::to_none_blocking(int fd)
@@ -62,7 +62,7 @@ void WSocket::to_none_blocking(int fd)
     fcntl(fd, F_SETFL, flag | O_NONBLOCK);
 }
 
-void WSocket::read(uint8_t *buf, uint32_t len)
+void WSocket::read(uint8_t *buf, size_t len)
 {
-    int ret = recv(_fd, buf, len, 0);
+    size_t ret = recv(_fd, buf, len, 0);
 }

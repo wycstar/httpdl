@@ -61,7 +61,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\language\LinuxInclude\x86_64-linux-gnu;D:\language\LinuxInclude\include;D:\Lang\LinuxInclude\include;$(IncludePath)</IncludePath>
+    <IncludePath>D:\Lang\LinuxInclude\x86_64-linux-gnu;D:/Lang/LinuxInclude/x86_64-linux-gnu;D:\Lang\LinuxInclude\include;D:/Lang/LinuxInclude/include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <IncludePath>D:\Lang\LinuxInclude\x86_64-linux-gnu;D:\Lang\LinuxInclude\include;$(IncludePath)</IncludePath>
@@ -84,7 +84,11 @@
     <ClInclude Include="WPoll.h" />
     <ClInclude Include="WSocket.h" />
   </ItemGroup>
-  <ItemDefinitionGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Lang\LinuxInclude\x86_64-linux-gnu;D:\Lang\LinuxInclude\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>

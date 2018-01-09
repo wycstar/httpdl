@@ -6,13 +6,14 @@
 class Server
 {
 private:
-    WPoll _poll;
+    std::shared_ptr<Worker> _workers;
     std::shared_ptr<WSocket> _listen;
-    std::shared_ptr<Worker> workers;
+    std::shared_ptr<WPoll> _poll;
 
 public:
     Server();
     ~Server();
     void dispatch();
-    static void listen_handler(int epoll_fd, int listen_fd, WPoll& poll);
+    static void listen_handler(int listen_fd, std::shared_ptr<WPoll> poll);
+    static void request_handler();
 };
