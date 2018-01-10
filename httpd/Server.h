@@ -15,5 +15,5 @@ public:
     ~Server();
     void dispatch();
     static void listen_handler(int listen_fd, std::shared_ptr<WPoll> poll);
-    static void request_handler();
+    static void request_handler(int client_fd);
 };

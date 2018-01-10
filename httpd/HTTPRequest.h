@@ -38,14 +38,15 @@ class HTTPRequest
 {
 private:
     vector<string> _split(const string& source, const string& sign);
-    HTTP_METHOD request_method;
-    string request_uri;
-    string request_version;
-
+    void _parse();
+    string _header;
+    HTTP_REQUEST _request;
+    
 public:
     HTTPRequest();
+    HTTPRequest(const char *);
     ~HTTPRequest();
-    HTTP_REQUEST parse(const string& request);
+    
     HTTP_METHOD get_method();
     string get_version();
     string get_uri();

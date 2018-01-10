@@ -1,6 +1,5 @@
 #include "WSocket.h"
 #include "log.h"
-#include <sys/epoll.h>
 #include <sys/fcntl.h>
 
 WSocket::WSocket()

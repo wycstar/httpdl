@@ -1,11 +1,7 @@
 #include "WPoll.h"
-#include "WSocket.h"
-#include "Worker.h"
 #include "log.h"
 #include "Buffer.h"
-
-extern Worker workers;
-WPoll poll;
+#include "WSocket.h"
 
 WPoll::WPoll():_events(make_buffer<struct epoll_event>(MAX_EVENTS))
 {

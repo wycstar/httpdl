@@ -61,7 +61,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\Lang\LinuxInclude\x86_64-linux-gnu;D:/Lang/LinuxInclude/x86_64-linux-gnu;D:\Lang\LinuxInclude\include;D:/Lang/LinuxInclude/include;$(IncludePath)</IncludePath>
+    <IncludePath>D:\Code\LinuxInclude\x86_64-linux-gnu;D:\Program Files %28x86%29\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\include\x86_64-linux-gnu;D:\Code\LinuxInclude\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <IncludePath>D:\Lang\LinuxInclude\x86_64-linux-gnu;D:\Lang\LinuxInclude\include;$(IncludePath)</IncludePath>
@@ -69,6 +69,7 @@
   <ItemGroup>
     <ClCompile Include="Buffer.cpp" />
     <ClCompile Include="HTTPRequest.cpp" />
+    <ClCompile Include="HTTPResponse.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="Worker.cpp" />
@@ -78,6 +79,7 @@
   <ItemGroup>
     <ClInclude Include="Buffer.h" />
     <ClInclude Include="HTTPRequest.h" />
+    <ClInclude Include="HTTPResponse.h" />
     <ClInclude Include="log.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="Worker.h" />
@@ -86,7 +88,7 @@
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\Lang\LinuxInclude\x86_64-linux-gnu;D:\Lang\LinuxInclude\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Code\LinuxInclude\x86_64-linux-gnu;D:\Code\LinuxInclude\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
