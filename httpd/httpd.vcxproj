@@ -68,6 +68,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ClCompile Include="Buffer.cpp" />
+    <ClCompile Include="Config.cpp" />
     <ClCompile Include="HTTPRequest.cpp" />
     <ClCompile Include="HTTPResponse.cpp" />
     <ClCompile Include="main.cpp" />
@@ -78,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Buffer.h" />
+    <ClInclude Include="Config.h" />
     <ClInclude Include="HTTPRequest.h" />
     <ClInclude Include="HTTPResponse.h" />
     <ClInclude Include="log.h" />
