@@ -3,6 +3,7 @@
 #include <vector>
 #include <sstream>
 #include <iostream>
+#include <map>
 
 using namespace std;
 
@@ -20,12 +21,6 @@ typedef enum _tHTTP_METHOD {
     DELETE
 }HTTP_METHOD;
 
-typedef struct _tHTTP_REQUEST{
-    HTTP_METHOD method;
-    string host;
-    string version;
-}HTTP_REQUEST;
-
 typedef struct _tHTTP_UA {
     string os;
     string render;
@@ -40,15 +35,17 @@ private:
     vector<string> _split(const string& source, const string& sign);
     void _parse();
     string _header;
-    HTTP_REQUEST _request;
+    HTTP_METHOD _method;
+    string _version;
+    string _uri;
     
 public:
     HTTPRequest();
     HTTPRequest(const char *);
     ~HTTPRequest();
     
-    HTTP_METHOD get_method();
-    string get_version();
-    string get_uri();
+    inline HTTP_METHOD get_method();
+    inline string get_version();
+    inline string get_uri();
     HTTP_UA get_ua();
 };

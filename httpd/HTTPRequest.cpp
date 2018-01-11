@@ -21,40 +21,39 @@ void HTTPRequest::_parse()
         return;
     }
     if (request_line[0].substr(start, 3) == "GET") {
-        _request.method = HTTP_METHOD::GET;
+        _method = HTTP_METHOD::GET;
         start = 4;
     }
     else if (request_line[0].substr(start, 4) == "POST") {
-        _request.method = HTTP_METHOD::POST;
+        _method = HTTP_METHOD::POST;
         start = 5;
     }
     else if (request_line[0].substr(start, 3) == "PUT") {
-        _request.method = HTTP_METHOD::PUT;
+        _method = HTTP_METHOD::PUT;
         start = 4;
     }
     else if (request_line[0].substr(start, 6) == "PUT") {
-        _request.method = HTTP_METHOD::DELETE;
+        _method = HTTP_METHOD::DELETE;
         start = 7;
     }
-    
-    _request.host = request_line[0].substr(start, request_line[0].find_last_of(" ") - start);
+    _uri = request_line[0].substr(start, request_line[0].find_last_of(" ") - start);
     start = request_line[0].find_last_of("/");
-    _request.version = request_line[0].substr(start + 1, request_line[0].find_first_of("\r") - start);
+    _version = request_line[0].substr(start + 1, request_line[0].find_first_of("\r") - start);
 }
 
 HTTP_METHOD HTTPRequest::get_method()
 {
-    return _request.method;
+    return _method;
 }
 
 string HTTPRequest::get_version()
 {
-    return _request.version;
+    return _version;
 }
 
 string HTTPRequest::get_uri()
 {
-    return _request.host;
+    return _uri;
 }
 
 HTTP_UA HTTPRequest::get_ua()
