@@ -4,7 +4,7 @@ HTTPRequest::HTTPRequest()
 {
 }
 
-HTTPRequest::HTTPRequest(const char * request):_header(request)
+HTTPRequest::HTTPRequest(const char * request):_header(request), _error_code(HTTP_OK)
 {
     _parse();
 }
@@ -15,8 +15,8 @@ HTTPRequest::~HTTPRequest()
 
 void HTTPRequest::_parse()
 {
-    string::size_type start = 0;
-    vector<string> request_line = _split(_header, "\r\n");
+    std::string::size_type start = 0;
+    std::vector<std::string> request_line = _split(_header, "\r\n");
     if (request_line.size() == 0) {
         return;
     }
@@ -32,28 +32,36 @@ void HTTPRequest::_parse()
         _method = HTTP_METHOD::PUT;
         start = 4;
     }
-    else if (request_line[0].substr(start, 6) == "PUT") {
+    else if (request_line[0].substr(start, 6) == "DELETE") {
         _method = HTTP_METHOD::DELETE;
         start = 7;
+    }
+    else {
+        _error_code = HTTP_METHOD_NOT_IMPLEMENTED;
     }
     _uri = request_line[0].substr(start, request_line[0].find_last_of(" ") - start);
     start = request_line[0].find_last_of("/");
     _version = request_line[0].substr(start + 1, request_line[0].find_first_of("\r") - start);
 }
 
-HTTP_METHOD HTTPRequest::get_method()
+inline HTTP_METHOD HTTPRequest::get_method()
 {
     return _method;
 }
 
-string HTTPRequest::get_version()
+inline std::string HTTPRequest::get_version()
 {
     return _version;
 }
 
-string HTTPRequest::get_uri()
+inline std::string HTTPRequest::get_uri()
 {
     return _uri;
+}
+
+inline HTTP_STATUS_CODE HTTPRequest::get_error()
+{
+    return _error_code;
 }
 
 HTTP_UA HTTPRequest::get_ua()
@@ -61,13 +69,13 @@ HTTP_UA HTTPRequest::get_ua()
     return HTTP_UA();
 }
 
-vector<string> HTTPRequest::_split(const string & source, const string & sign)
+std::vector<std::string> HTTPRequest::_split(const std::string & source, const std::string & sign)
 {
-    vector<string> result;
-    string::size_type p1, p2;
+    std::vector<std::string> result;
+    std::string::size_type p1, p2;
     p2 = source.find(sign);
     p1 = 0;
-    while (string::npos != p2) {
+    while (std::string::npos != p2) {
         result.push_back(source.substr(p1, p2 - p1));
         p1 = p2 + sign.size();
         p2 = source.find(sign, p1);

@@ -1,6 +1,7 @@
 #include "Server.h"
 #include "log.h"
 #include "HTTPRequest.h"
+#include "HTTPResponse.h"
 
 Server::Server() :
     _workers(std::shared_ptr<Worker>(new Worker(4))),
@@ -56,6 +57,5 @@ void Server::request_handler(int client_fd)
     }
     if (strlen(buf) == 0) return;
     std::cout << "abc" << std::endl;
-    HTTPRequest r(buf);
-    //std::cout << r.get_uri() << r.get_version() << std::endl;
+    HTTPResponse r(HTTPRequest(buf), client_fd);
 }
