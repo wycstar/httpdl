@@ -37,7 +37,7 @@ void HTTPRequest::_parse()
         start = 7;
     }
     else {
-        _error_code = HTTP_METHOD_NOT_IMPLEMENTED;
+        _method = HTTP_METHOD::UNIMPLEMENTED;
     }
     _uri = request_line[0].substr(start, request_line[0].find_last_of(" ") - start);
     start = request_line[0].find_last_of("/");

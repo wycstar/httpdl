@@ -73,6 +73,7 @@
     <ClCompile Include="HTTPResponse.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Server.cpp" />
+    <ClCompile Include="WFile.cpp" />
     <ClCompile Include="Worker.cpp" />
     <ClCompile Include="WPoll.cpp" />
     <ClCompile Include="WSocket.cpp" />
@@ -84,6 +85,7 @@
     <ClInclude Include="HTTPResponse.h" />
     <ClInclude Include="log.h" />
     <ClInclude Include="Server.h" />
+    <ClInclude Include="WFile.h" />
     <ClInclude Include="Worker.h" />
     <ClInclude Include="WPoll.h" />
     <ClInclude Include="WSocket.h" />

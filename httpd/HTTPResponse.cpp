@@ -36,7 +36,27 @@ HTTPResponse::HTTPResponse(HTTPRequest && request, int fd) :
 std::string HTTPResponse::make_response(HTTPRequest & request)
 {
     if (_error_code != HTTP_OK) handle_error(_error_code);
+    switch (_method) {
+        case HTTP_METHOD::GET: {
+            
+            break;
+        };
+        case HTTP_METHOD::POST: {
 
+            break;
+        };
+        case HTTP_METHOD::PUT: {
+
+            break;
+        };
+        case HTTP_METHOD::DELETE: {
+
+            break;
+        };
+        default: {
+            handle_error(HTTP_METHOD_NOT_IMPLEMENTED);
+        }
+    }
     return std::string();
 }
 

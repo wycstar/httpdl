@@ -19,7 +19,8 @@ typedef enum _tHTTP_METHOD {
     GET,
     POST,
     PUT,
-    DELETE
+    DELETE,
+    UNIMPLEMENTED
 }HTTP_METHOD;
 
 typedef struct _tHTTP_UA {
