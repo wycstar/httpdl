@@ -1,13 +1,15 @@
 #include "HTTPResponse.h"
 #include <sstream>
 #include <sys/socket.h>
+#include "WFile.h"
 
 HTTPResponse::HTTPResponse()
 {
 }
 
-HTTPResponse::HTTPResponse(HTTPRequest && request, int fd) :
+HTTPResponse::HTTPResponse(HTTPRequest && request, int fd, std::string &base) :
     _fd(fd),
+    _base(base),
     _SERVER_STRING("Augur/1.0.0"),
     _ERROR_TIP({
         { HTTP_NOT_FOUND , "<HTML><TITLE>404 NOT FOUND</TITLE>\r\n<BODY><P>server can't find the source which you request\r\n</P></BODY></HTML>\r\n" },
@@ -18,7 +20,7 @@ HTTPResponse::HTTPResponse(HTTPRequest && request, int fd) :
         { HTTP_UNSUPPORTED_VERSION , "<HTML><HEAD><TITLE>WRONG HTTP VERSION\r\n</TITLE></HEAD>\r\n<BODY><P>HTTP version not support\r\n</P></BODY></HTML>\r\n" }
         }),
     _ERROR_TYPE({
-        { HTTP_NOT_FOUND , "404 Not Found\r\n" },
+        { HTTP_NOT_FOUND , "Not Found\r\n" },
         { HTTP_BAD_REQUEST , "Bad Request\r\n" },
         { HTTP_FORBIDDEN , "Forbidden\r\n" },
         { HTTP_SERVER_ERROR , "Server Error\r\n" },
@@ -33,12 +35,31 @@ HTTPResponse::HTTPResponse(HTTPRequest && request, int fd) :
 
 }
 
-std::string HTTPResponse::make_response(HTTPRequest & request)
+void HTTPResponse::make_response()
 {
     if (_error_code != HTTP_OK) handle_error(_error_code);
     switch (_method) {
         case HTTP_METHOD::GET: {
-            
+            WFile f(_base + _uri);
+            if (f.error() != HTTP_OK) {
+                std::cout << "1" << std::endl;
+                handle_error(f.error());
+                return;
+            }
+            if (f.is_dir()) {
+                _uri += "/index.html";
+            }
+            WFile g(_base + _uri);
+            std::cout << "2" << std::endl;
+            if (g.error() != HTTP_OK) {
+                std::cout << "3" << std::endl;
+                handle_error(HTTP_FORBIDDEN);
+                return;
+            }
+            std::cout << "4" << std::endl;
+            std::cout << std::string(g.data()) << std::endl;
+            //make_header(HTTP_OK);
+            //send(_fd, g.data(), g.size(), 0);
             break;
         };
         case HTTP_METHOD::POST: {
@@ -57,22 +78,22 @@ std::string HTTPResponse::make_response(HTTPRequest & request)
             handle_error(HTTP_METHOD_NOT_IMPLEMENTED);
         }
     }
-    return std::string();
+    return;
 }
 
 void HTTPResponse::handle_error(HTTP_STATUS_CODE code)
 {
-    std::stringstream ss;
     HTTP_STRING_MAP::const_iterator tip = _ERROR_TIP.find(code);
+    make_header(code);
+    send(_fd, tip->second.c_str(), tip->second.length(), 0);
+}
+
+void HTTPResponse::make_header(HTTP_STATUS_CODE code)
+{
+    std::stringstream ss;
     HTTP_STRING_MAP::const_iterator type = _ERROR_TYPE.find(code);
-    if (tip == _ERROR_TIP.end()) {
-        THROW_SYSTEM_ERROR();
-    }
-    else {
-        ss << (code == HTTP_UNSUPPORTED_VERSION ? "HTTP/1.1" : _version) << " " << type->second;
-        send(_fd, ss.str().c_str(), ss.str().length(), 0);
-        send(_fd, tip->second.c_str(), tip->second.length(), 0);
-    }
+    ss << (code == HTTP_UNSUPPORTED_VERSION ? "HTTP/1.1" : _version) << " " << type->second;
+    send(_fd, ss.str().c_str(), ss.str().length(), 0);
 }
 
 HTTPResponse::~HTTPResponse()

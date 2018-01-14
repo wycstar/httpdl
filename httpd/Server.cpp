@@ -2,6 +2,7 @@
 #include "log.h"
 #include "HTTPRequest.h"
 #include "HTTPResponse.h"
+#include "Config.h"
 
 Server::Server() :
     _workers(std::shared_ptr<Worker>(new Worker(4))),
@@ -11,6 +12,8 @@ Server::Server() :
     _listen->bind();
     _listen->listen();
     _poll->add(_listen->native());
+    Config config("./config");
+    _base = config.read("root", _base);
 }
 
 Server::~Server()
@@ -32,7 +35,7 @@ void Server::dispatch()
                 _workers->commit(listen_handler, handler, _poll);
             }
             else {
-                _workers->commit(request_handler, handler);
+                _workers->commit(request_handler, handler, _base);
             }
         }
     }
@@ -46,7 +49,7 @@ void Server::listen_handler(int listen_fd, std::shared_ptr<WPoll> poll)
     poll.get()->add(client_fd);
 }
 
-void Server::request_handler(int client_fd)
+void Server::request_handler(int client_fd, std::string &base)
 {
     char buf[1024];
     int read = 0;
@@ -56,6 +59,6 @@ void Server::request_handler(int client_fd)
         index += read;
     }
     if (strlen(buf) == 0) return;
-    std::cout << "abc" << std::endl;
-    HTTPResponse r(HTTPRequest(buf), client_fd);
+    HTTPResponse r(HTTPRequest(buf), client_fd, base);
+    r.make_response();
 }

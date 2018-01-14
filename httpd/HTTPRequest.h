@@ -47,10 +47,10 @@ public:
     HTTPRequest(const char *);
     ~HTTPRequest();
     
-    inline HTTP_METHOD get_method();
-    inline std::string get_version();
-    inline std::string get_uri();
-    inline HTTP_STATUS_CODE get_error();
+    HTTP_METHOD get_method();
+    std::string get_version();
+    std::string get_uri();
+    HTTP_STATUS_CODE get_error();
     HTTP_UA get_ua();
     //HTTPRequest &operator=(HTTPRequest &&other) {
 

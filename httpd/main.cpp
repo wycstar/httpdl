@@ -5,11 +5,7 @@
 
 int main()
 {
-    //Server server;
-    //server.dispatch();
-    Config c("/home/wyc/code/httpd/config.conf");
-    string ip;
-    ip = c.read<string>("ip");
-    cout << ip << endl;
+    Server server;
+    server.dispatch();
     return 0;
 }

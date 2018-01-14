@@ -44,22 +44,22 @@ void HTTPRequest::_parse()
     _version = request_line[0].substr(start + 1, request_line[0].find_first_of("\r") - start);
 }
 
-inline HTTP_METHOD HTTPRequest::get_method()
+HTTP_METHOD HTTPRequest::get_method()
 {
     return _method;
 }
 
-inline std::string HTTPRequest::get_version()
+std::string HTTPRequest::get_version()
 {
     return _version;
 }
 
-inline std::string HTTPRequest::get_uri()
+std::string HTTPRequest::get_uri()
 {
     return _uri;
 }
 
-inline HTTP_STATUS_CODE HTTPRequest::get_error()
+HTTP_STATUS_CODE HTTPRequest::get_error()
 {
     return _error_code;
 }
