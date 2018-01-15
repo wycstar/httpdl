@@ -1,35 +1,9 @@
 #pragma once
-#include <string>
+#include "HTTPUtil.h"
 #include <vector>
 #include <sstream>
 #include <iostream>
 #include <map>
-
-typedef enum _tHTTP_STATUS {
-    HTTP_OK = 200,
-    HTTP_BAD_REQUEST = 400,
-    HTTP_FORBIDDEN = 403,
-    HTTP_NOT_FOUND = 404,
-    HTTP_SERVER_ERROR = 500,
-    HTTP_METHOD_NOT_IMPLEMENTED = 501,
-    HTTP_UNSUPPORTED_VERSION = 505
-}HTTP_STATUS_CODE;
-
-typedef enum _tHTTP_METHOD {
-    GET,
-    POST,
-    PUT,
-    DELETE,
-    UNIMPLEMENTED
-}HTTP_METHOD;
-
-typedef struct _tHTTP_UA {
-    std::string os;
-    std::string render;
-    std::string browser_name;
-    std::string browser_core;
-    std::string arch;
-}HTTP_UA;
 
 class HTTPRequest
 {

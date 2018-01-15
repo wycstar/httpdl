@@ -11,19 +11,17 @@ WFile::WFile(const std::string path):
     _error_code(HTTP_OK),
     _mapped(false)
 {
-    _fd = open(_path.c_str(), O_RDONLY);
-    std::cout << _path << std::endl;
-    std::cout << errno << std::endl;
-    std::cout << _fd << std::endl;
-    switch (errno) {
-    case ENOENT:
+    if (-1 == access(_path.c_str(), F_OK)) {
         _error_code = HTTP_NOT_FOUND;
-        break;
-    case EACCES:
-        _error_code = HTTP_FORBIDDEN;
-    case 0:
-        fstat(_fd, &_stat);
-        break;
+    }
+    else {
+        _fd = open(_path.c_str(), O_RDONLY);
+        if (_fd != -1) {
+            fstat(_fd, &_stat);
+        }
+        else {
+            _error_code = HTTP_FORBIDDEN;
+        }
     }
 }
 
@@ -34,14 +32,13 @@ const std::string & WFile::path() const
 
 char * WFile::data()
 {
-    //_data = reinterpret_cast<char *>(mmap(NULL, _stat.st_size, PROT_READ, MAP_SHARED, _fd, 0));
+    _data = reinterpret_cast<char *>(mmap(NULL, _stat.st_size, PROT_READ, MAP_SHARED, _fd, 0));
     _mapped = true;
     return _data;
 }
 
 WFile::~WFile()
 {
-    std::cout << _fd << "\t" << _mapped << std::endl;
     if (_fd != -1) {
         close(_fd);
     }

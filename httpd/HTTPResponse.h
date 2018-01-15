@@ -1,6 +1,6 @@
 #pragma once
+#include "HTTPUtil.h"
 #include <iostream>
-#include <string>
 #include <map>
 #include "HTTPRequest.h"
 #include "log.h"
@@ -26,4 +26,8 @@ public:
     void handle_error(HTTP_STATUS_CODE code);
     void make_header(HTTP_STATUS_CODE code);
     ~HTTPResponse();
+};
+
+class HTTPDate {
+
 };

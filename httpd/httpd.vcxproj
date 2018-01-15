@@ -71,6 +71,7 @@
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="HTTPRequest.cpp" />
     <ClCompile Include="HTTPResponse.cpp" />
+    <ClCompile Include="HTTPUtil.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="WFile.cpp" />
@@ -83,6 +84,7 @@
     <ClInclude Include="Config.h" />
     <ClInclude Include="HTTPRequest.h" />
     <ClInclude Include="HTTPResponse.h" />
+    <ClInclude Include="HTTPUtil.h" />
     <ClInclude Include="log.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="WFile.h" />

@@ -20,6 +20,7 @@ HTTPResponse::HTTPResponse(HTTPRequest && request, int fd, std::string &base) :
         { HTTP_UNSUPPORTED_VERSION , "<HTML><HEAD><TITLE>WRONG HTTP VERSION\r\n</TITLE></HEAD>\r\n<BODY><P>HTTP version not support\r\n</P></BODY></HTML>\r\n" }
         }),
     _ERROR_TYPE({
+        { HTTP_OK, "OK\r\n" },
         { HTTP_NOT_FOUND , "Not Found\r\n" },
         { HTTP_BAD_REQUEST , "Bad Request\r\n" },
         { HTTP_FORBIDDEN , "Forbidden\r\n" },
@@ -40,9 +41,10 @@ void HTTPResponse::make_response()
     if (_error_code != HTTP_OK) handle_error(_error_code);
     switch (_method) {
         case HTTP_METHOD::GET: {
+            std::cout << "--------------" << std::endl;
+            std::cout << "URI:" << _uri << std::endl;
             WFile f(_base + _uri);
             if (f.error() != HTTP_OK) {
-                std::cout << "1" << std::endl;
                 handle_error(f.error());
                 return;
             }
@@ -50,16 +52,14 @@ void HTTPResponse::make_response()
                 _uri += "/index.html";
             }
             WFile g(_base + _uri);
-            std::cout << "2" << std::endl;
             if (g.error() != HTTP_OK) {
-                std::cout << "3" << std::endl;
                 handle_error(HTTP_FORBIDDEN);
                 return;
             }
-            std::cout << "4" << std::endl;
-            std::cout << std::string(g.data()) << std::endl;
-            //make_header(HTTP_OK);
+            //std::cout << std::string(g.data()) << std::endl;
+            make_header(HTTP_OK);
             //send(_fd, g.data(), g.size(), 0);
+            std::cout << "SEND BYTE:" << send(_fd, "ab1234", strlen("ab1234") + 1, 0) << std::endl;
             break;
         };
         case HTTP_METHOD::POST: {
@@ -78,6 +78,7 @@ void HTTPResponse::make_response()
             handle_error(HTTP_METHOD_NOT_IMPLEMENTED);
         }
     }
+    close(_fd);
     return;
 }
 
@@ -92,7 +93,13 @@ void HTTPResponse::make_header(HTTP_STATUS_CODE code)
 {
     std::stringstream ss;
     HTTP_STRING_MAP::const_iterator type = _ERROR_TYPE.find(code);
-    ss << (code == HTTP_UNSUPPORTED_VERSION ? "HTTP/1.1" : _version) << " " << type->second;
+    ss << (code == HTTP_UNSUPPORTED_VERSION ? "HTTP/1.1" : "HTTP/" + _version)
+        << " " << code << " " << type->second
+        << "Server:" << _SERVER_STRING << "\r\n"
+        << "Date:" << HTTPUtil::now() << "\r\n"
+        << "Content-Type:text/html\r\n"
+        << "\r\n";
+    std::cout << "RESPONSE HEADER:" << ss.str() << std::endl;
     send(_fd, ss.str().c_str(), ss.str().length(), 0);
 }
 

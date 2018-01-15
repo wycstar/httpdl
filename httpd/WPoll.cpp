@@ -16,7 +16,7 @@ WPoll::~WPoll()
 void WPoll::add(int fd)
 {
     struct epoll_event _ev;
-    _ev.events = EPOLLIN | EPOLLET;
+    _ev.events = EPOLLIN | EPOLLET | EPOLLOUT;
     _ev.data.fd = fd;
     WSocket::to_none_blocking(fd);
     int ret = epoll_ctl(_fd, EPOLL_CTL_ADD, fd, &_ev);
