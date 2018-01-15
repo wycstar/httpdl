@@ -10,7 +10,7 @@ HTTPResponse::HTTPResponse()
 HTTPResponse::HTTPResponse(HTTPRequest && request, int fd, std::string &base) :
     _fd(fd),
     _base(base),
-    _SERVER_STRING("Augur/1.0.0"),
+    _SERVER_STRING("Augur"),
     _ERROR_TIP({
         { HTTP_NOT_FOUND , "<HTML><TITLE>404 NOT FOUND</TITLE>\r\n<BODY><P>server can't find the source which you request\r\n</P></BODY></HTML>\r\n" },
         { HTTP_BAD_REQUEST , "<HTML><HEAD><TITLE>400 BAD REQUEST</TITLE></HEAD><BODY><P>this is a bad request for server</P></BODY></HTML>" },
@@ -43,6 +43,7 @@ void HTTPResponse::make_response()
         case HTTP_METHOD::GET: {
             std::cout << "--------------" << std::endl;
             std::cout << "URI:" << _uri << std::endl;
+            //May be more elegant
             WFile f(_base + _uri);
             if (f.error() != HTTP_OK) {
                 handle_error(f.error());
