@@ -23,7 +23,7 @@ WSocket::WSocket(SOCKET_TYPE t)
 
 WSocket::~WSocket()
 {
-
+    
 }
 
 void WSocket::bind(string host, unsigned short port)

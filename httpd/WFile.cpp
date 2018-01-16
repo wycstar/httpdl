@@ -8,11 +8,11 @@ WFile::WFile()
 WFile::WFile(const std::string path):
     _path(path),
     _fd(-1),
-    _error_code(HTTP_OK),
+    _error_code(HTTPUtil::HTTP_OK),
     _mapped(false)
 {
     if (-1 == access(_path.c_str(), F_OK)) {
-        _error_code = HTTP_NOT_FOUND;
+        _error_code = HTTPUtil::HTTP_NOT_FOUND;
     }
     else {
         _fd = open(_path.c_str(), O_RDONLY);
@@ -20,7 +20,7 @@ WFile::WFile(const std::string path):
             fstat(_fd, &_stat);
         }
         else {
-            _error_code = HTTP_FORBIDDEN;
+            _error_code = HTTPUtil::HTTP_FORBIDDEN;
         }
     }
 }

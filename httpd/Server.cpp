@@ -52,8 +52,8 @@ void Server::listen_handler(int listen_fd, std::shared_ptr<WPoll> poll)
 void Server::request_handler(int client_fd, std::string &base)
 {
     char buf[1024];
-    int read = 0;
-    int index = 0;
+    ssize_t read = 0;
+    ssize_t index = 0;
     bzero(buf, sizeof(buf));
     while ((read = ::read(client_fd, buf + index, sizeof(buf) - 1)) > 0) {
         index += read;

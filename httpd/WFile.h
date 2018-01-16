@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>
-#include "HTTPRequest.h"
+#include "HTTPUtil.h"
 
 class WFile
 {
@@ -14,7 +14,7 @@ private:
     std::string _path;
     size_t _size;
     int _fd;
-    HTTP_STATUS_CODE _error_code;
+    HTTPUtil::HTTP_STATUS_CODE _error_code;
     struct stat _stat;
     char * _data;
     bool _mapped;
@@ -29,7 +29,7 @@ public:
     bool is_executable() const {
         return (_stat.st_mode & S_IXUSR) || (_stat.st_mode & S_IXGRP) || (_stat.st_mode & S_IXOTH);
     };
-    HTTP_STATUS_CODE error() const {
+    HTTPUtil::HTTP_STATUS_CODE error() const {
         return _error_code;
     };
     const size_t size() const{
