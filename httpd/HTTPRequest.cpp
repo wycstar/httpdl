@@ -18,24 +18,40 @@ HTTPRequest::~HTTPRequest()
 
 void HTTPRequest::_parse()
 {
-    std::string::size_type start = 0;
-    std::vector<std::string> request_line = HTTPUtil::split(_header, "\r\n");
-    if (request_line.size() == 0) {
-        return;
+    std::vector<std::string> request_container = HTTPUtil::split(_header, "\r\n");
+    if (request_container.size() == 0) return;
+    _parse_request_line(request_container[0]);
+    _parse_request_header(request_container);
+    auto accept = _line_map.find("Accept");
+    if (accept != _line_map.end()) {
+        auto a = HTTPUtil::parse_mime(accept->second);
+        _accept = a[0].first;
     }
-    if (request_line[0].substr(start, 3) == "GET") {
+    //TODO
+    /*
+    1·遍历conf文件夹，读入所有配置
+    2·charset可以默认设置为utf-8，除非conf里有说明
+    3·encoding问题暂时想到这里
+    4·接下来是CGI的实现
+    */
+}
+
+void HTTPRequest::_parse_request_line(std::string & line)
+{
+    std::string::size_type start = 0;
+    if (line.substr(start, 3) == "GET") {
         _method = HTTPUtil::GET;
         start = 4;
     }
-    else if (request_line[0].substr(start, 4) == "POST") {
+    else if (line.substr(start, 4) == "POST") {
         _method = HTTPUtil::POST;
         start = 5;
     }
-    else if (request_line[0].substr(start, 3) == "PUT") {
+    else if (line.substr(start, 3) == "PUT") {
         _method = HTTPUtil::PUT;
         start = 4;
     }
-    else if (request_line[0].substr(start, 6) == "DELETE") {
+    else if (line.substr(start, 6) == "DELETE") {
         _method = HTTPUtil::DELETE;
         start = 7;
     }
@@ -43,20 +59,37 @@ void HTTPRequest::_parse()
         _method = HTTPUtil::UNIMPLEMENTED;
         return;
     }
-    _uri = request_line[0].substr(start, request_line[0].find_last_of(" ") - start);
-    start = request_line[0].find_last_of("/");
-    _version = request_line[0].substr(start + 1, request_line[0].find_first_of("\r") - start);
-    for (size_t index = 1; index < request_line.size() - 1; index++) {
-        auto sep = request_line[index].find_first_of(":");
-        _line_map.insert(std::pair <std::string, std::string>(
-            request_line[index].substr(0, sep),
-            request_line[index].substr(sep + 2, request_line[index].length())
-        ));
+    std::string url = line.substr(start, line.find_last_of(" ") - start);
+    auto sep = url.find("?");
+    if (sep == std::string::npos) {
+        _uri = url;
     }
-    auto accept = _line_map.find("Accept");
-    if (accept != _line_map.end()) {
-        auto a = HTTPUtil::parse_mime(accept->second);
-        _accept = a[0].first;
+    else {
+        _uri = url.substr(0, sep);
+        std::string query(url.substr(sep + 1));
+        _parse_url_params(query);
+    }
+    start = line.find_last_of("/");
+    _version = line.substr(start + 1, line.find_first_of("\r") - start);
+}
+
+void HTTPRequest::_parse_request_header(std::vector<std::string>& container)
+{
+    for (size_t index = 1; index < container.size() - 1; index++) {
+        auto sep = container[index].find_first_of(":");
+        _line_map.insert(std::pair <std::string, std::string>(
+            container[index].substr(0, sep),
+            container[index].substr(sep + 2, container[index].length())
+            ));
+    }
+}
+
+void HTTPRequest::_parse_url_params(std::string & qs)
+{
+    auto s = HTTPUtil::split(qs, "&");
+    for (auto i : s) {
+        auto a = HTTPUtil::split(i, "=");
+        _query_params.insert(std::pair<std::string, std::string>(a[0], a[1]));
     }
 }
 

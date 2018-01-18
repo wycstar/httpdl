@@ -37,6 +37,11 @@ char * WFile::data()
     return _data;
 }
 
+bool WFile::is_exists(std::string & name)
+{
+    return !(-1 == access(name.c_str(), F_OK));
+}
+
 WFile::~WFile()
 {
     if (_fd != -1) {

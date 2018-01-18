@@ -14,6 +14,10 @@ private:
     HTTPUtil::HTTP_STATUS_CODE _error_code;
     std::map<std::string, std::string> _line_map;
     std::string _accept;
+    std::multimap<std::string, std::string> _query_params;
+    void _parse_url_params(std::string &uri);
+    void _parse_request_line(std::string &line);
+    void _parse_request_header(std::vector<std::string> &container);
     
 public:
     HTTPRequest();
@@ -26,7 +30,5 @@ public:
     HTTPUtil::HTTP_STATUS_CODE get_error();
     HTTPUtil::HTTP_UA get_ua();
     std::string get_mime();
-    //HTTPRequest &operator=(HTTPRequest &&other) {
-
-    //};
+    
 };

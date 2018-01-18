@@ -11,7 +11,7 @@ Server::Server() :
 {
     _listen->bind();
     _listen->listen();
-    _poll->add(_listen->native());
+    _poll->add(_listen->native(), false);
     Config config("./config");
     _base = config.read("root", _base);
 }
@@ -35,7 +35,7 @@ void Server::dispatch()
                 _workers->commit(listen_handler, handler, _poll);
             }
             else {
-                _workers->commit(request_handler, handler, _base);
+                _workers->commit(request_handler, handler, _base, _poll);
             }
         }
     }
@@ -49,16 +49,20 @@ void Server::listen_handler(int listen_fd, std::shared_ptr<WPoll> poll)
     poll.get()->add(client_fd);
 }
 
-void Server::request_handler(int client_fd, std::string &base)
+void Server::request_handler(int client_fd, std::string &base, std::shared_ptr<WPoll> poll)
 {
     char buf[1024];
-    ssize_t read = 0;
-    ssize_t index = 0;
     bzero(buf, sizeof(buf));
-    while ((read = ::read(client_fd, buf + index, sizeof(buf) - 1)) > 0) {
-        index += read;
+    auto ret = recv(client_fd, buf, sizeof(buf) - 1, 0);
+    if (ret == 0) {
+        close(client_fd);
+        return;
     }
-    if (strlen(buf) == 0) return;
+    else if (ret < 0 && errno == EAGAIN) {
+        poll.get()->reset_oneshot(client_fd);
+        return;
+    }
+    cout << buf << endl;
     HTTPResponse r(HTTPRequest(buf), client_fd, base);
     r.make_response();
 }

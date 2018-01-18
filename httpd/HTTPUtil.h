@@ -7,6 +7,7 @@
 
 namespace HTTPUtil {
     using QUALITY_FACTOR = std::pair<std::string, float>;
+    const std::string SERVER_STRING = "Augur";
     typedef enum _tHTTP_STATUS {
         HTTP_OK = 200,
         HTTP_BAD_REQUEST = 400,
@@ -32,7 +33,23 @@ namespace HTTPUtil {
         std::string browser_core;
         std::string arch;
     }HTTP_UA;
-
+    const std::map<HTTPUtil::HTTP_STATUS_CODE, std::string> DEFAULT_ERROR_PAGE = {
+        { HTTP_NOT_FOUND , "<HTML><TITLE>404 NOT FOUND</TITLE>\r\n<BODY><P>server can't find the source which you request\r\n</P></BODY></HTML>\r\n" },
+        { HTTP_BAD_REQUEST , "<HTML><HEAD><TITLE>400 BAD REQUEST</TITLE></HEAD><BODY><P>this is a bad request for server</P></BODY></HTML>" },
+        { HTTP_FORBIDDEN , "<HTML><TITLE>403 PERMISSION DENIED</TITLE>\r\n<BODY><P>you don't have enough permissions to view this file\r\n</P></BODY></HTML>\r\n" },
+        { HTTP_SERVER_ERROR , "<HTML><HEAD><TITLE>500 SERVER ERROR</TITLE></HEAD><BODY><P>SERVER ERROR</P></BODY></HTML>" },
+        { HTTP_METHOD_NOT_IMPLEMENTED , "<HTML><HEAD><TITLE>METHOD NOT IMPLEMENTED\r\n</TITLE></HEAD>\r\n<BODY><P>request method not support\r\n</P></BODY></HTML>\r\n" },
+        { HTTP_UNSUPPORTED_VERSION , "<HTML><HEAD><TITLE>WRONG HTTP VERSION\r\n</TITLE></HEAD>\r\n<BODY><P>HTTP version not support\r\n</P></BODY></HTML>\r\n" }
+    };
+    const std::map<HTTPUtil::HTTP_STATUS_CODE, std::string> RESPONSE_LINE = {
+        { HTTP_OK, "OK\r\n" },
+        { HTTP_NOT_FOUND , "Not Found\r\n" },
+        { HTTP_BAD_REQUEST , "Bad Request\r\n" },
+        { HTTP_FORBIDDEN , "Forbidden\r\n" },
+        { HTTP_SERVER_ERROR , "Server Error\r\n" },
+        { HTTP_METHOD_NOT_IMPLEMENTED , "Method Not Implemented\r\n" },
+        { HTTP_UNSUPPORTED_VERSION , "HTTP Version Not Supported\r\n" }
+    };
     typedef struct _tHTTP_TIME {
         int year;
         int month;

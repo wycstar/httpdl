@@ -6,13 +6,9 @@
 
 class HTTPResponse
 {
-    using HTTP_STRING_MAP = std::map<HTTPUtil::HTTP_STATUS_CODE, std::string>;
 private:
     int _fd;
     std::string _base;
-    const std::string _SERVER_STRING;
-    const HTTP_STRING_MAP _ERROR_TIP;
-    const HTTP_STRING_MAP _ERROR_TYPE;
     HTTPUtil::HTTP_METHOD _method;
     std::string _uri;
     std::string _version;

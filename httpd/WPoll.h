@@ -13,7 +13,8 @@ private:
 public:
     WPoll();
     ~WPoll();
-    void add(int fd);
+    void add(int fd, bool is_oneshort = true);
+    void reset_oneshot(int fd);
     int wait();
     struct epoll_event* events();
     int native();

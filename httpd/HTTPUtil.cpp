@@ -32,7 +32,7 @@ std::vector<HTTPUtil::QUALITY_FACTOR> HTTPUtil::parse_mime(std::string mime)
     std::vector<std::string> a = split(mime, ",");
     std::vector<QUALITY_FACTOR> b;
     for (auto d = a.begin(); d != a.end(); d++) {
-        int sep = d->find_first_of(";");
+        auto sep = d->find_first_of(";");
         b.push_back(QUALITY_FACTOR(d->substr(0, sep), sep == std::string::npos ? 1.0 : atof(d->substr(sep + 3, d->length()).c_str())));
     }
     quality_sort(b);

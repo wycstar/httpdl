@@ -36,5 +36,6 @@ public:
         return _stat.st_size;
     };
     char *data();
+    static bool is_exists(std::string &name);
     ~WFile();
 };
