@@ -28,6 +28,7 @@ WSocket::~WSocket()
 
 void WSocket::bind(string host, unsigned short port)
 {
+    _addr.sin_family = AF_INET;
     _addr.sin_addr.s_addr = inet_addr(host.c_str());
     _addr.sin_port = htons(port);
     int ret = ::bind(_fd, reinterpret_cast<sockaddr *>(&_addr), sizeof(sockaddr));

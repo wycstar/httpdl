@@ -14,6 +14,7 @@ private:
     std::string _version;
     std::string _accept;
     HTTPUtil::HTTP_STATUS_CODE _error_code;
+    void _execute_cgi();
     
 public:
     HTTPResponse();
