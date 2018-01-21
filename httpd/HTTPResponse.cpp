@@ -3,6 +3,10 @@
 #include <sys/socket.h>
 #include "WFile.h"
 
+void HTTPResponse::_execute_cgi()
+{
+}
+
 HTTPResponse::HTTPResponse()
 {
 }
