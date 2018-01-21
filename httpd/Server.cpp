@@ -62,7 +62,7 @@ void Server::request_handler(int client_fd, std::string &base, std::shared_ptr<W
         poll.get()->reset_oneshot(client_fd);
         return;
     }
-    cout << buf << endl;
+    std::cout << buf << std::endl;
     HTTPResponse r(HTTPRequest(buf), client_fd, base);
     r.make_response();
 }

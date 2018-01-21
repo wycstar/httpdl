@@ -26,12 +26,23 @@ WSocket::~WSocket()
     
 }
 
-void WSocket::bind(string host, unsigned short port)
+void WSocket::bind(std::string host, unsigned short port)
 {
     _addr.sin_family = AF_INET;
     _addr.sin_addr.s_addr = inet_addr(host.c_str());
     _addr.sin_port = htons(port);
     int ret = ::bind(_fd, reinterpret_cast<sockaddr *>(&_addr), sizeof(sockaddr));
+    if (ret != 0) {
+        THROW_SYSTEM_ERROR();
+    }
+}
+
+void WSocket::connect(std::string host, short port)
+{
+    _addr.sin_family = AF_INET;
+    _addr.sin_addr.s_addr = inet_addr(host.c_str());
+    _addr.sin_port = htons(port);
+    int ret = ::connect(_fd, reinterpret_cast<sockaddr *>(&_addr), sizeof(sockaddr));
     if (ret != 0) {
         THROW_SYSTEM_ERROR();
     }
@@ -64,5 +75,8 @@ void WSocket::to_none_blocking(int fd)
 
 void WSocket::read(uint8_t *buf, size_t len)
 {
-    size_t ret = recv(_fd, buf, len, 0);
+    ssize_t ret = recv(_fd, buf, len, 0);
+    if (ret == -1) {
+        THROW_SYSTEM_ERROR();
+    }
 }

@@ -3,10 +3,6 @@
 #include <sys/socket.h>
 #include "WFile.h"
 
-void HTTPResponse::_execute_cgi()
-{
-}
-
 HTTPResponse::HTTPResponse()
 {
 }
@@ -88,6 +84,11 @@ void HTTPResponse::make_header(HTTPUtil::HTTP_STATUS_CODE code)
         << "\r\n";
     std::cout << "RESPONSE HEADER:" << ss.str() << std::endl;
     send(_fd, ss.str().c_str(), ss.str().length(), 0);
+}
+
+void HTTPResponse::_execute_cgi()
+{
+
 }
 
 HTTPResponse::~HTTPResponse()

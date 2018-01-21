@@ -4,8 +4,6 @@
 #include <sys/ioctl.h>
 #include <string>
 
-using namespace std;
-
 typedef enum _tSOCKET_TYPE {
     UNIX,
     INET
@@ -22,7 +20,8 @@ public:
     WSocket();
     WSocket(SOCKET_TYPE t);
     ~WSocket();
-    void bind(string host = "0.0.0.0", unsigned short port = 54213);
+    void bind(std::string host = "0.0.0.0", unsigned short port = 54213);
+    void connect(std::string host, short port);
     int native();
     void listen();
     void to_none_blocking();
