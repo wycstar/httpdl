@@ -9,11 +9,7 @@ class HTTPResponse
 private:
     int _fd;
     std::string _base;
-    HTTPUtil::HTTP_METHOD _method;
-    std::string _uri;
-    std::string _version;
-    std::string _accept;
-    HTTPUtil::HTTP_STATUS_CODE _error_code;
+    HTTPRequest _request;
     void _execute_cgi();
     
 public:

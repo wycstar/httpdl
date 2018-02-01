@@ -8,6 +8,8 @@
 namespace HTTPUtil {
     using QUALITY_FACTOR = std::pair<std::string, float>;
     const std::string SERVER_STRING = "Augur";
+    const std::string DEFAULT_INDEX[] = { "index.html", "index.htm", "index.xhtml", "index.ht", \
+                                          "default.htm", "index.php", "index.cgi" };
     typedef enum _tHTTP_STATUS {
         HTTP_OK = 200,
         HTTP_BAD_REQUEST = 400,

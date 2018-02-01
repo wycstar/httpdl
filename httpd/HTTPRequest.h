@@ -30,5 +30,5 @@ public:
     HTTPUtil::HTTP_STATUS_CODE get_error();
     HTTPUtil::HTTP_UA get_ua();
     std::string get_mime();
-    
+    friend class HTTPResponse;
 };
