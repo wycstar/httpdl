@@ -74,6 +74,7 @@
     <ClCompile Include="HTTPResponse.cpp" />
     <ClCompile Include="HTTPUtil.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MD5.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="WFile.cpp" />
     <ClCompile Include="Worker.cpp" />
@@ -88,6 +89,7 @@
     <ClInclude Include="HTTPResponse.h" />
     <ClInclude Include="HTTPUtil.h" />
     <ClInclude Include="log.h" />
+    <ClInclude Include="MD5.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="WFile.h" />
     <ClInclude Include="Worker.h" />
@@ -97,6 +99,11 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>D:\Code\LinuxInclude\x86_64-linux-gnu;D:\Code\LinuxInclude\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>Z:\Code\LinuxInclude\x86_64-linux-gnu;Z:\Code\LinuxInclude\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
