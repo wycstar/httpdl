@@ -1,0 +1,2 @@
+﻿  Validating architecture
+D:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\VC\VCTargets\Application Type\Linux\1.0\Linux.targets(51,5): error : Could not find the credentials for remote machine or device '10.0.0.9 (username=wyc, port=22, authentication=Password)'. Please select a different remote machine target.

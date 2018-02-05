@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <LocalLibPath>D:\Code\httpn\httpd\bin\x64\Debug\httpd.out</LocalLibPath>
+  <ObjPaths>D:\Code\httpn\httpd\obj\x64\Debug\</ObjPaths>
+  <Configuration>Debug</Configuration>
+  <Platform>x64</Platform>
+</Project>

@@ -1,0 +1,1 @@
+g++ -o "/home/wyc/projects/httpd/bin/x64/Debug/httpd.out" -Wl,--no-undefined -Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack /home/wyc/projects/httpd/obj/x64/Debug/HTTPRequest.o /home/wyc/projects/httpd/obj/x64/Debug/main.o
