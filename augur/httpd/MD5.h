@@ -50,7 +50,7 @@ private:
     void _step(const std::function<uint32_t(uint32_t, uint32_t, uint32_t)> &f,
         uint32_t &w, uint32_t &x, uint32_t &y, uint32_t &z, uint32_t data, uint32_t s);
     void _update(const uint8_t *input, size_t len);
-    void _transform();
+    void _transform(const uint8_t block[MD5_BLOCK_LENGTH]);
     void _pad();
     void _final();
 

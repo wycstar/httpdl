@@ -3,7 +3,7 @@
 
 MD5::MD5()
 {
-    _update((uint8_t *)"abc", 3);
+    _update((uint8_t *)"bcd", 3);
     _final();
     std::string s((char *)_out);
     std::cout << s << std::endl;
@@ -58,13 +58,13 @@ void MD5::_update(const uint8_t *input, size_t len) {
     if (len >= need) {
         if (have != 0) {
             memcpy(_buffer + have, input, need);
-            _transform();
+            _transform(_buffer);
             input += need;
             len -= need;
             have = 0;
         }
         while (len >= MD5_BLOCK_LENGTH) {
-            _transform();
+            _transform(input);
             input += MD5_BLOCK_LENGTH;
             len -= MD5_BLOCK_LENGTH;
         }
@@ -73,8 +73,7 @@ void MD5::_update(const uint8_t *input, size_t len) {
         memcpy(_buffer + have, input, len);
 }
 
-void MD5::_transform() {
-    uint8_t block[MD5_BLOCK_LENGTH];
+void MD5::_transform(const uint8_t block[MD5_BLOCK_LENGTH]) {
     u_int32_t a, b, c, d, in[MD5_BLOCK_LENGTH / 4];
     memcpy(in, block, sizeof(in));
     a = _state[0];
