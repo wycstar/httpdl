@@ -67,6 +67,7 @@
     <IncludePath>D:\Lang\LinuxInclude\x86_64-linux-gnu;D:\Lang\LinuxInclude\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemGroup>
+    <ClCompile Include="Base64.cpp" />
     <ClCompile Include="Buffer.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="FastCGI.cpp" />
@@ -82,6 +83,7 @@
     <ClCompile Include="WSocket.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Base64.h" />
     <ClInclude Include="Buffer.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="FastCGI.h" />

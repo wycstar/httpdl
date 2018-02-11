@@ -4,6 +4,7 @@
 #include "Config.h"
 #include "FastCGI.h"
 #include "MD5.h"
+#include "Base64.h"
 
 int main()
 {
@@ -17,6 +18,7 @@ int main()
     };
     FCGI::write(socket->native(), 1, params);
     FCGI::read(socket->native());*/
-    MD5 m;
+    Base64 b;
+    std::cout << b.encode("wycstar:qwertyui") << std::endl;
     return 0;
 }

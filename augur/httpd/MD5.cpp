@@ -1,20 +1,18 @@
 #include "MD5.h"
 #include <iostream>
 
-MD5::MD5()
+MD5::MD5():
+    _count(0),
+    _in("")
 {
-    _update((uint8_t *)"bcd", 3);
-    _final();
-    std::string s((char *)_out);
-    std::cout << s << std::endl;
-    for (int i = 0; i < 16; i++) {
-        printf("%2x-", _out[i]);
-    }
+    
 }
 
-MD5::MD5(const uint8_t *in) {
-    _update((uint8_t *)"abc", 3);
-    _final();
+MD5::MD5(std::string s):
+    _count(0),
+    _in(s)
+{
+    
 }
 
 MD5::~MD5()
@@ -24,7 +22,7 @@ MD5::~MD5()
 void MD5::_final() {
     _pad();
     for (uint8_t i = 0; i < 4; i++)
-        PUT_32BIT_LE(_out + i * 4, _state[i]);
+        char_to_int(_out + i * 4, _state[i]);
 }
 
 void MD5::_pad()
@@ -32,7 +30,7 @@ void MD5::_pad()
     u_int8_t count[8];
     size_t padlen;
 
-    PUT_64BIT_LE(count, _count);
+    char_to_long(count, _count);
     padlen = MD5_BLOCK_LENGTH - ((_count >> 3) & (MD5_BLOCK_LENGTH - 1));
     if (padlen < 1 + 8)
         padlen += MD5_BLOCK_LENGTH;
@@ -41,17 +39,15 @@ void MD5::_pad()
 }
 
 void MD5::_step(const std::function<uint32_t(uint32_t, uint32_t, uint32_t)> &f,
-    uint32_t &w, uint32_t &x, uint32_t &y, uint32_t &z, uint32_t data, uint32_t s) {
+    uint32_t &w, uint32_t x, uint32_t y, uint32_t z, uint32_t data, uint32_t s) {
     w += f(x, y, z) + data;
     w = w << s | w >> (32 - s);
     w += x;
 };
 
 void MD5::_update(const uint8_t *input, size_t len) {
-    size_t have, need;
-
-    have = (size_t)((_count >> 3) & (MD5_BLOCK_LENGTH - 1));
-    need = MD5_BLOCK_LENGTH - have;
+    size_t have = (size_t)((_count >> 3) & (MD5_BLOCK_LENGTH - 1));
+    size_t need = MD5_BLOCK_LENGTH - have;
 
     _count += (uint64_t)len << 3;
 
@@ -155,7 +151,13 @@ void MD5::_transform(const uint8_t block[MD5_BLOCK_LENGTH]) {
     _state[3] += d;
 }
 
-uint8_t* MD5::out() {
-    //std::string s((signed)_out);
-    //std::cout << s << std::endl;
+std::string MD5::to_hex() {
+    char buf[2 * MD5_DIGEST_LENGTH];
+    _update((uint8_t *)_in.c_str(), _in.length());
+    _final();
+    for (uint8_t i = 0; i < MD5_DIGEST_LENGTH; i++) {
+        sprintf(buf + 2 * i, "%02x", _out[i]);
+    }
+    std::string s(buf);
+    return s;
 }
